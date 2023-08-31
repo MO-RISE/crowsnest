@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="173mm" height="177mm" version="1.1" viewBox="0 0 173 177" xmlns="http://www.w3.org/2000/svg">
+<g style="mix-blend-mode:normal">
+<ellipse cx="85.906" cy="88.825" rx="82.313" ry="82.372" fill="#907ecb" style="mix-blend-mode:normal;paint-order:markers stroke fill"/>
+<path d="m70.922 169.52 22.299-142.13 4.4598 0.96952-16.676 142.22z" stroke="#000" stroke-width=".1574px" style="mix-blend-mode:normal"/>
+<path d="m55.797 92.153-2.7147 55.457s9.6841 9.1282 25.595 10.229c15.911 1.1009 24.82-4.6058 24.82-4.6058l11.44-53.905s-15.785 2.4779-28.504 1.5512c-12.719-0.92671-30.637-8.7257-30.637-8.7257z" stroke="#000" stroke-width=".1574px" style="mix-blend-mode:normal"/>
+<path d="m115.37 95.885s2.2502-3.6451-21.765-7.4162c-19.256-3.0239-37.837-3.0181-37.266-1.7822 1.0635 2.299 38.359 16.258 59.031 9.1984z" fill="none" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal"/>
+<path d="m56.422 86.948 0.52917 9.572" fill="none" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal"/>
+<path d="m115.37 95.885-3.5001 9.0928" fill="none" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal"/>
+<path d="m104.78 90.631-4.2568 14.978" fill="none" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal"/>
+<path d="m97.684 89.369-3.9415 14.347" fill="none" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal"/>
+<ellipse transform="rotate(6.9657)" cx="97.947" cy="16.315" rx="4.9696" ry="2.9211" stroke="#000" stroke-width="1.9632" style="mix-blend-mode:normal;paint-order:markers stroke fill"/>
+<path d="m96.908 36.533-2.2693 11.494s8.1029-3.5924 12.394-3.4912c3.3111 0.0781 6.2218 3.9795 9.4262 3.1421 4.1845-1.0935 8.728-9.6008 8.728-9.6008s-5.2358 1.6229-7.8552 1.2219c-4.6815-0.71673-3.9924-7.9621-12.743-6.2842-2.7657 0.53034-7.6806 3.5186-7.6806 3.5186z" stroke="#000" stroke-width=".26458px" style="mix-blend-mode:normal"/>
+<path d="m66.954 85.417-3.2548 14.931" fill="none" stroke="#000" stroke-width="1.665" style="mix-blend-mode:normal"/>
+<path d="m72.339 92.519-3.2547 14.931" fill="none" stroke="#000" stroke-width="1.665" style="mix-blend-mode:normal"/>
+<path d="m79.693 87.397-3.2547 14.931" fill="none" stroke="#000" stroke-width="1.665" style="mix-blend-mode:normal"/>
+<path d="m63.158 124.29s15.522-11.813 23.855-9.7355c7.0266 1.7515 13.908 16.689 13.908 16.689s-12.282 8.961-19.123 7.997c-7.8872-1.1112-18.64-14.951-18.64-14.951z" fill="#fff" stroke="#000" stroke-width=".26458px" style="mix-blend-mode:normal"/>
+<ellipse cx="81.721" cy="131.6" rx="7.1883" ry="6.3068" fill="#00000d" style="mix-blend-mode:normal;paint-order:markers stroke fill"/>
+</g>
+</svg>
