@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+
+  auth:
+    build: backend-services/auth/.
+    restart: unless-stopped
+
+    labels:
+      - crowsnest.expose=true
+      - traefik.http.routers.auth.rule=PathPrefix(`/auth/api`)
+      - traefik.http.middlewares.auth-strip.stripprefix.prefixes=/auth/api
+      - traefik.http.routers.auth.middlewares=auth-strip
+      - traefik.http.middlewares.auth.forwardauth.address=http://auth/verify
+      - traefik.http.middlewares.auth.forwardauth.trustForwardHeader=true
+      - traefik.http.services.auth.loadbalancer.server.port=80
+    
+    environment:
+      - USER_DATABASE_URL=postgresql://${CROWSNEST_DB_USER}:${CROWSNEST_DB_PASSWORD}@database/${CROWSNEST_DB}
+      - ACCESS_COOKIE_DOMAIN=${CROWSNEST_HOST}
+      - ACCESS_COOKIE_HTTPONLY=${CROWSNEST_AUTH_ACCESS_COOKIE_HTTPONLY}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${CROWSNEST_AUTH_ACCESS_TOKEN_EXPIRE_MINUTES}
+      - ADMIN_USER_PASSWORD=${CROWSNEST_AUTH_ADMIN_USER_PASSWORD}
+      - JWT_TOKEN_SECRET=${JWT_TOKEN_SECRET}
+      - BASE_URL=/auth/api
+    
+    depends_on:
+      - database

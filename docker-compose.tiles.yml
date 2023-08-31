@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+
+  tiles:
+    image: maptiler/tileserver-gl:v4.5.0
+    restart: unless-stopped
+    labels:
+      - crowsnest.expose=true
+      - traefik.http.routers.tiles-router.rule=PathPrefix(`/tiles`)
+      - traefik.http.middlewares.tiles-strip.stripprefix.prefixes=/tiles
+      - traefik.http.routers.tiles-router.entryPoints=web
+      - traefik.http.services.tiles-service.loadbalancer.server.port=8080
+      - traefik.http.routers.tiles-router.service=tiles-service
+      - traefik.http.middlewares.tiles-cors.headers.accesscontrolallowmethods=GET
+      - traefik.http.middlewares.tiles-cors.headers.accesscontrolallowheaders=Authorization,Access-Control-Allow-Origin
+      - traefik.http.middlewares.tiles-cors.headers.accesscontrolalloworiginlist=*
+      - traefik.http.middlewares.tiles-cors.headers.accesscontrolmaxage=100
+      - traefik.http.middlewares.tiles-cors.headers.addvaryheader=true
+      #- traefik.http.routers.tiles-router.middlewares=tiles-strip,cors,crowsnest-auth
+      - traefik.http.routers.tiles-router.middlewares=tiles-strip,tiles-cors,auth
+    volumes:
+      - ./backend-services/tiles:/data
+    command:
+      - --public_url
+      - ${CROWSNEST_PROTOCOL}${CROWSNEST_HOST}/tiles
+      - --verbose
+    

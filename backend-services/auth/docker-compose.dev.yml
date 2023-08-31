@@ -1,0 +1,70 @@
+version: '3'
+services:
+
+
+  traefik:
+    image: "traefik:v2.4"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web-secure.address=:443"
+      - "--providers.file.filename=/dev-service-config.yml"
+
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./dev-service-config.yml:/dev-service-config.yml"
+
+  http_microservice:
+    image: containous/whoami:latest
+    
+    labels:
+      - traefik.http.routers.http_example.rule=Path(`/whoami`)
+      - traefik.http.routers.http_example.middlewares=forward-auth@file
+  
+  database:
+     image: "postgres:14.0-alpine"
+     ports:
+      - 5432:5432
+     environment:
+       - POSTGRES_USER=admin
+       - POSTGRES_PASSWORD=password
+       - POSTGRES_DB=users
+ 
+  emqx:
+    image: emqx/emqx
+    labels:
+      - "traefik.http.routers.emqx-ws.rule=PathPrefix(`/mqtt`)"
+      - "traefik.http.routers.emqx-ws.service=emqx-ws"
+      - "traefik.http.services.emqx-ws.loadbalancer.server.port=8083"
+    ports:
+      - 18083:18083
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    environment:
+      - EMQX_NAME=dev-emqx
+      - EMQX_LOG__LEVEL=debug
+      - EMQX_LOG__TO=console
+      - EMQX_LOADED_PLUGINS="emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_auth_jwt,emqx_auth_http"
+      - EMQX_AUTH__HTTP__AUTH_REQ__URL=http://host.docker.internal:8000/login
+      - EMQX_AUTH__HTTP__AUTH_REQ__METHOD=post
+      - EMQX_AUTH__HTTP__AUTH_REQ__HEADERS__CONTENT-TYPE=application/x-www-form-urlencoded
+      - EMQX_AUTH__HTTP__AUTH_REQ__PARAMS=username=%u,password=%P
+      - EMQX_AUTH__HTTP__ACL_REQ__URL=http://host.docker.internal:8000/verify_emqx
+      - EMQX_AUTH__HTTP__ACL_REQ__METHOD=get
+      - EMQX_AUTH__HTTP__ACL_REQ__PARAMS=username=%u,topic=%t
+      - EMQX_AUTH__JWT__SECRET=${JWT_TOKEN_SECRET}
+      - EMQX_AUTH__JWT__FROM=username
+      - EMQX_AUTH__JWT__VERIFY_CLAIMS=off
+
+
+    

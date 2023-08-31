@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+
+  frontend:
+    build: frontend/.
+    restart: unless-stopped
+    labels:
+      - crowsnest.expose=true
+      - traefik.http.routers.crowsnest-auth-frontend.rule=PathPrefix(`/auth`)
+      - traefik.http.services.crowsnest-auth-frontend.loadbalancer.server.port=80

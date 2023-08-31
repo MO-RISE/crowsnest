@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+
+  reverse-proxy:
+    command:
+      - "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.constraints=Label(`crowsnest.expose`, `true`)"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.traefik-dashboard.address=:8080"
+      - "--providers.file.filename=/dev-frontend-service-config.yml"
+    volumes:
+      - "./dev-frontend-service-config.yml:/dev-frontend-service-config.yml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"

@@ -1,0 +1,166 @@
+{
+    "version": 8,
+    "name": "Chart 4000",
+    "center": [11.83239, 57.67853],
+    "zoom": 11,
+    "sources": {
+        "chart_4000": {
+          "type": "vector",
+          "url": "mbtiles://{chart_4000}"
+        }
+      },
+    "sprite": "{styleJsonFolder}/sprite",
+    "glyphs": "{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "dredged area",
+            "type": "fill",
+            "source": "chart_4000",
+            "source-layer": "drgare",
+            "layout": {
+                "visibility": "none"
+            },
+            "paint": {
+                "fill-outline-color": "rgba(255, 0, 0, 1)",
+                "fill-color": "rgba(255, 255, 255, 0)"
+            }
+        },
+        {
+            "id": "depth_area_mid_shallow",
+            "type": "fill",
+            "source": "chart_4000",
+            "source-layer": "depare",
+            "filter": [
+                "all",
+                [
+                    "<",
+                    "drval2",
+                    10
+                ]
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "rgba(207, 255, 253, 1)",
+                "fill-opacity": 1
+            }
+        },
+        {
+            "id": "depth_area_shallow",
+            "type": "fill",
+            "source": "chart_4000",
+            "source-layer": "depare",
+            "filter": [
+                "all",
+                [
+                    "<",
+                    "drval2",
+                    6
+                ]
+            ],
+            "paint": {
+                "fill-color": "rgba(103, 202, 224, 1)"
+            }
+        },
+        {
+            "id": "depth_contour",
+            "type": "line",
+            "source": "chart_4000",
+            "source-layer": "depcnt",
+            "paint": {
+                "line-color": "rgba(2, 29, 57, 0.63)"
+            }
+        },
+        {
+            "id": "depth_contout_label",
+            "type": "symbol",
+            "source": "chart_4000",
+            "source-layer": "depcnt",
+            "layout": {
+                "text-font": [
+                    "Open Sans Regular"
+                ],
+                "text-field": "{valdco}",
+                "symbol-placement": "line",
+                "text-padding": 2,
+                "text-size": 12
+            },
+            "paint": {
+                "text-halo-color": "rgba(255, 255, 255, 1)",
+                "text-halo-width": 2,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "land_area",
+            "type": "fill",
+            "source": "chart_4000",
+            "source-layer": "lndare",
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "rgba(236, 236, 205, 1)"
+            }
+        },
+        {
+            "id": "shoreline_construction",
+            "type": "line",
+            "source": "chart_4000",
+            "source-layer": "slcons",
+            "paint": {
+                "line-color": "rgba(0, 0, 0, 1)",
+                "line-width": 1.5
+            }
+        },
+        {
+            "id": "coastline",
+            "type": "line",
+            "source": "chart_4000",
+            "source-layer": "coalne",
+            "paint": {
+                "line-color": "rgba(51, 51, 32, 1)",
+                "line-width": 1
+            }
+        },
+        {
+            "id": "sounding",
+            "type": "symbol",
+            "source": "chart_4000",
+            "source-layer": "soundg",
+            "minzoom": 14,
+            "layout": {
+                "text-field": "{depth}",
+                "text-font": [
+                    "Open Sans Regular"
+                ],
+                "text-size": 10
+            }
+        },
+        {
+            "id": "lights",
+            "type": "symbol",
+            "source": "chart_4000",
+            "source-layer": "lights",
+            "layout": {
+              "icon-image": [
+                "case",
+                ["==", ["get", "colour"], "[\"3\"]"],
+                "LIGHTS11",
+                ["==", ["get", "colour"], "[\"4\"]"],
+                "LIGHTS12",
+                ["==", ["get", "colour"], "[\"1\"]"],
+                "LIGHTS13",
+                ["==", ["get", "colour"], "[\"1\"]"],
+                "LIGHTS16",
+                ""
+              ],
+              "icon-allow-overlap": true,
+              "icon-anchor": "top-left"
+            }
+          }
+    ],
+    "id": "5rlhsva54",
+    "owner": "Maritime Operations - RISE"
+}

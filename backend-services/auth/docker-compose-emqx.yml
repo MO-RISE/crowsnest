@@ -1,0 +1,28 @@
+version: "3.8"
+services: 
+  emqx:
+    image: emqx/emqx
+    restart: always
+    environment:
+      EMQX_NAME: emqx-foo
+      EMQX_LOADED_PLUGINS: emqx_auth_http
+      EMQX_LOG_LEVEL: debug
+      EMQX_AUTH__HTTP__REQUEST__RETRY_TIMES: 3
+      EMQX_AUTH__HTTP__REQUEST__RETRY_INTERVAL: 1s
+      EMQX_AUTH__HTTP__REQUEST__RETRY_BACKOFF: 2.0
+      EMQX_AUTH__HTTP__AUTH_REQ: http://localhost/auth/api/login
+      EMQX_AUTH__HTTP__AUTH_REQ__METHOD: post
+      EMQX_AUTH__HTTP__AUTH_REQ__CONTENT-TYPE: application/x-www-form-urlencoded
+      EMQX_AUTH__HTTP__AUTH_REQ__PARAMS: username=%u,password=%P
+      EMQX_AUTH__HTTP__SUPER_REQ: http://localhost/auth/api/login
+      EMQX_AUTH__HTTP__SUPER_REQ__PARAMS: username=%u,password=%P
+      EMQX_AUTH__HTTP__SUPER_REQ__CONTENT-TYPE: application/x-www-form-urlencoded
+      EMQX_AUTH__HTTP__SUPER_REQ__METHOD: post
+      EMQX_AUTH__HTTP__ACL_REQ: http://localhost/auth/api/verify_emqx
+      EMQX_AUTH__HTTP__ACL_REQ__METHOD: post
+      EMQX_AUTH__HTTP__ACL_REQ__PARAMS: username=%u,topic=%t
+      EMQX_LISTENER__TCP__EXTERNAL: 1883
+      EMQX_LISTENER__WS__EXTERNAL: 8083
+    ports:
+      - 1883:1883
+      - 18083:18083

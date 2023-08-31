@@ -1,0 +1,34 @@
+## Dynamic configuration
+http:
+  routers:
+    to-webserver:
+      service: webserver
+      rule: "PathPrefix(`/auth`)"
+      #rule: "Path(`/auth`,'/auth/')"
+
+    to-auth:
+      service: crowsnest-auth
+      middlewares:
+        - "auth-api-strip"
+      rule: "Path(`/auth/api/{case:[a-z0-9/]+}`)"
+      #rule: "PathPrefix(`/auth/api`)"
+  middlewares:
+    auth-api-strip:
+      stripPrefix:
+        prefixes:
+          - "/auth/api"
+
+    forward-auth:
+      forwardAuth:
+        address: "http://host.docker.internal:8000/verify"
+        trustForwardHeader: true
+
+  services:
+    webserver:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:3000"
+    crowsnest-auth:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8000"

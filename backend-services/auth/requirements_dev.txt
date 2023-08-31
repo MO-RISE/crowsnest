@@ -1,0 +1,8 @@
+black
+pylint
+pytest
+pytest-docker
+pytest-dotenv
+pytest-pythonpath
+paho-mqtt
+requests

@@ -1,0 +1,18 @@
+## Dynamic configuration
+http:
+  routers:
+    traefik-dashboard:
+      rule: "Host(`${CROWSNEST_HOST}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+      entryPoints:
+        - "traefik-dashboard"
+      service: "api@internal"
+
+    frontend:
+      service: frontend
+      rule: "Host(`localhost`)"
+
+  services:
+    frontend:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:3000"

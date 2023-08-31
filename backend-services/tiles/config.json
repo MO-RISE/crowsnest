@@ -1,0 +1,24 @@
+{
+  "options": {
+      "paths": {
+      "fonts": "fonts",
+      "styles": "styles"
+    }
+  },
+  "styles": {
+    "chart_4000": {
+      "style": "chart_4000/style.json"
+    },
+    "chart_180000": {
+      "style": "chart_180000/style.json"
+    }
+  },
+  "data": {
+    "chart_4000": {
+      "mbtiles": "chart_4000.mbtiles"
+    },
+    "chart_180000": {
+      "mbtiles": "chart_180000.mbtiles"
+    }
+  }
+}
