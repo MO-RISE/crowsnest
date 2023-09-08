@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  gis-database:
+    image: "postgis/postgis:15-3.4"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${CROWSNEST_GIS_DB_USER}
+      - POSTGRES_PASSWORD=${CROWSNEST_GIS_DB_PASSWORD}
+      - POSTGRES_DB=${CROWSNEST_GIS_DB}
+    ports:
+      - 5432:5432
+    # volumes:
+    #  - gis-database:/var/lib/postgresql/data
+    #  - ./backend-services/gis/gis-database-setup.sql:/docker-entrypoint-initdb.d/git-database-setup.sql
+
+volumes:
+  gis-database:

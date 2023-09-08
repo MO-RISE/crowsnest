@@ -16,7 +16,7 @@ services:
       - traefik.http.services.auth.loadbalancer.server.port=80
     
     environment:
-      - USER_DATABASE_URL=postgresql://${CROWSNEST_DB_USER}:${CROWSNEST_DB_PASSWORD}@database/${CROWSNEST_DB}
+      - USER_DATABASE_URL=postgresql://${CROWSNEST_AUTH_DB_USER}:${CROWSNEST_AUTH_DB_PASSWORD}@auth-database/${CROWSNEST_AUTH_DB}
       - ACCESS_COOKIE_DOMAIN=${CROWSNEST_HOST}
       - ACCESS_COOKIE_HTTPONLY=${CROWSNEST_AUTH_ACCESS_COOKIE_HTTPONLY}
       - ACCESS_TOKEN_EXPIRE_MINUTES=${CROWSNEST_AUTH_ACCESS_TOKEN_EXPIRE_MINUTES}
@@ -25,4 +25,4 @@ services:
       - BASE_URL=/auth/api
     
     depends_on:
-      - database
+      - auth-database

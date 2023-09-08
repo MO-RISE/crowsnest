@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+
+  auth-database:
+    image: "postgres:14.0-alpine"
+    restart: unless-stopped
+    volumes:
+      - auth-database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${CROWSNEST_AUTH_DB_USER}
+      - POSTGRES_PASSWORD=${CROWSNEST_AUTH_DB_PASSWORD}
+      - POSTGRES_DB=${CROWSNEST_AUTH_DB}
+
+volumes:
+  auth-database:

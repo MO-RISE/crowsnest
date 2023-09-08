@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+
+  gis:
+    image: postgrest/postgrest:v11.2.0
+    restart: unless-stopped
+    labels:
+      - crowsnest.expose=true
+      - traefik.http.routers.gis-router.rule=PathPrefix(`/gis/api`)
+      - traefik.http.middlewares.gis-strip.stripprefix.prefixes=/gis/api
+      - traefik.http.routers.gis-router.entryPoints=web
+      - traefik.http.services.gis-service.loadbalancer.server.port=3000
+      - traefik.http.routers.gis-router.service=gis-service
+      - traefik.http.routers.gis-router.middlewares=gis-strip
+    environment:
+      - PGRST_DB_URI=postgresql://${CROWSNEST_GIS_DB_USER}:${CROWSNEST_GIS_DB_PASSWORD}@gis-database/${CROWSNEST_GIS_DB}
+      - PGRST_DB_ANON_ROLE=web_anon
+      - PGRST_DB_SCHEMA=public
+      - PGRST_JWT_SECRET=jwtsecret
+      - PGRST_JWT_SECRET_IS_BASE64=false
+   

@@ -5,4 +5,11 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  variants: {
+    extend: {
+      backgroundColor: ["dark"],
+      textColor: ["dark"],
+    },
+  },
+  darkMode: "class", // or 'media'
 };

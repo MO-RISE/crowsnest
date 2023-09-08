@@ -3,13 +3,15 @@ import {
   createBrowserRouter,
   RouterProvider,
   redirect,
-  useRouteError,
+  Outlet,
   useRouteLoaderData,
 } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Monitor from "./pages/Monitor";
 import Admin from "./pages/Admin";
+import Topbar from "./components/Topbar";
+import Error from "./pages/Error";
 
 function getToken() {
   const name = "crowsnest-auth-access";
@@ -37,7 +39,6 @@ async function getUser() {
 }
 
 async function protectedLoader({ request }) {
-  console.log("protected website");
   const token = getToken();
   if (!token) {
     let params = new URLSearchParams();
@@ -51,19 +52,12 @@ async function protectedLoader({ request }) {
   }
 }
 
-function ErrorBoundary() {
-  let error = useRouteError();
-  console.log(error);
-  return <div>Dang!</div>;
-}
-
 function Layout() {
   let user = useRouteLoaderData("root");
-  console.log(user);
   return (
     <div>
-      <p>Foo</p>
-      {user.firstname}
+      <Topbar user={user} />
+      <Outlet />
     </div>
   );
 }
@@ -74,7 +68,17 @@ const router = createBrowserRouter([
     path: "/",
     loader: protectedLoader,
     element: <Layout />,
-    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        path: "/",
+        element: <Monitor />,
+      },
+      {
+        path: "/ecdis",
+        element: <Monitor />,
+      },
+    ],
+    errorElement: <Error />,
   },
   {
     id: "login",
@@ -82,15 +86,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    id: "monitor",
-    path: "/monitor",
-    loader: protectedLoader,
-    element: <Monitor />,
-  },
-  {
     id: "admin",
     path: "/admin/*",
-    loader: protectedLoader,
     element: <Admin />,
   },
 ]);

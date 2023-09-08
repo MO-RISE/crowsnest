@@ -17,7 +17,6 @@ services:
       - traefik.http.middlewares.tiles-cors.headers.accesscontrolalloworiginlist=*
       - traefik.http.middlewares.tiles-cors.headers.accesscontrolmaxage=100
       - traefik.http.middlewares.tiles-cors.headers.addvaryheader=true
-      #- traefik.http.routers.tiles-router.middlewares=tiles-strip,cors,crowsnest-auth
       - traefik.http.routers.tiles-router.middlewares=tiles-strip,tiles-cors,auth
     volumes:
       - ./backend-services/tiles:/data

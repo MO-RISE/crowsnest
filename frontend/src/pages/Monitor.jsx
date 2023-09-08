@@ -10,40 +10,82 @@ const protocol =
 const chart4000 =
   protocol + window.location.hostname + "/tiles/styles/chart_4000/style.json";
 
-const geojsonTest = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        coordinates: [
-          [
-            [11.871927851584275, 57.68847127768268],
-            [11.871927851584275, 57.68517753703662],
-            [11.891079221957511, 57.68517753703662],
-            [11.891079221957511, 57.68847127768268],
-            [11.871927851584275, 57.68847127768268],
-          ],
-        ],
-        type: "Polygon",
-      },
-    },
+const area = {
+  coordinates: [
+    [
+      [11.811578676341128, 57.68509160435036],
+      [11.811578676341128, 57.66136222163314],
+      [11.841157116273138, 57.66136222163314],
+      [11.841157116273138, 57.68509160435036],
+      [11.811578676341128, 57.68509160435036],
+    ],
   ],
+  type: "Polygon",
 };
 
 export default function Monitor() {
+  const [obstacles, setObstacles] = React.useState(null);
+
+  // Query the GIS database and get obstacleswithin an area for a ship with a draft of 4 m.
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost/gis/api/rpc/get_obstacles",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              area_geom: area,
+              draft: 4,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        setObstacles(result);
+        console.log(result);
+      } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+      }
+    };
+
+    // Call the fetch function
+    fetchData();
+  }, []);
+
   const layers = [
     new GeoJsonLayer({
       id: "test",
-      data: geojsonTest,
-      opacity: 0.4,
-      stroked: false,
+      data: area,
+      opacity: 0.2,
+      stroked: true,
       filled: true,
       extruded: false,
       wireframe: true,
-      getLineColor: [255, 255, 255],
+      getLineColor: [0, 255, 0],
+      getFillColor: [0, 100, 0],
+      getLineWidth: 4,
+      pickable: true,
+      getElevation: 30,
+    }),
+    new GeoJsonLayer({
+      id: "test",
+      data: obstacles,
+      opacity: 1,
+      stroked: true,
+      filled: false,
+      extruded: false,
+      wireframe: true,
+      getLineColor: [0, 255, 0],
       getFillColor: [43, 153, 138],
+      getLineWidth: 4,
       pickable: true,
       getElevation: 30,
     }),
